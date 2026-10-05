@@ -1,1 +1,55 @@
-[]
+[[
+  {
+    "id": 2,
+    "category": "cafe",
+    "cafe": "Test",
+    "date": "2026-10-05",
+    "double_price": 1.2,
+    "single_price": 2.4,
+    "note": "Testing, it out.",
+    "score": 78,
+    "ratings": {
+      "0-0": 4, 
+      "0-1": 3,
+      "0-2": 4,
+      "0-3": 4,
+      "1-0": 5,
+      "1-1": 4,
+      "1-2": 3,
+      "1-3": 4,
+      "2-0": 4,
+      "2-1": 4,
+      "2-2": 3,
+      "2-3": 4,
+      "2-4": -1
+    },
+    "image_url": "assets/reviews/CKXWdz-Yp7wUUOQ9cyhV0jlHvbidxnVsMM6P35jh4V8-1536x2048.jpg"
+  },
+  {
+    "id": 1,
+    "category": "cafe",
+    "cafe": "Tes2 ja",
+    "date": "2026-10-05",
+    "double_price": 1.2,
+    "single_price": 3.4,
+    "note": "top test!",
+    "score": 88,
+    "ratings": {
+      "0-0": 5,
+      "0-1": 5,
+      "0-2": 4,
+      "0-3": 5,
+      "1-1": 4,
+      "1-2": 4,
+      "1-0": 4,
+      "1-3": 5,
+      "2-0": 4,
+      "2-1": 5,
+      "2-2": 5,
+      "2-3": 5,
+      "2-4": 0
+    },
+    "image_url": "assets/reviews/Skærmbillede 2022-09-21 kl. 19.32.16.png"
+  }
+]
+]
