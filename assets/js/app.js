@@ -1,8 +1,13 @@
-var GROUPS = window.ESPRESSO_GROUPS;
 var saved = [];
 
 function $(id) {
   return document.getElementById(id);
+}
+
+function groupsFor(category) {
+  return category === "home"
+    ? window.ESPRESSO_ATHOME_GROUPS
+    : window.ESPRESSO_GROUPS;
 }
 
 function setStatus(message, isError) {
@@ -22,8 +27,8 @@ function esc(value) {
   });
 }
 
-function gavg(ratings, groupIndex) {
-  var group = GROUPS[groupIndex];
+function gavg(ratings, groups, groupIndex) {
+  var group = groups[groupIndex];
   var total = 0;
   var count = 0;
 
@@ -38,12 +43,20 @@ function gavg(ratings, groupIndex) {
   return count ? total / count : null;
 }
 
+function scoreFor(ratings, groups) {
+  return groups.reduce(function (total, _group, groupIndex) {
+    var average = gavg(ratings, groups, groupIndex);
+    return total + (average === null ? 0 : average);
+  }, 0);
+}
+
 function f1(value) {
   return value === null ? "-" : (Math.round(value * 10) / 10).toFixed(1);
 }
 
 function report(entry) {
   var ratings = entry.ratings || {};
+  var groups = groupsFor(entry.category);
   var html = '<div class="rep">';
 
   if (entry.image_url) {
@@ -55,8 +68,37 @@ function report(entry) {
       '" loading="lazy">';
   }
 
-  GROUPS.forEach(function (group, groupIndex) {
-    var average = gavg(ratings, groupIndex);
+  if (entry.category === "home") {
+    var coffeeDetails = [
+      ["Roasting date", entry.roasting_date],
+      [
+        "Price per 250g",
+        entry.price_per_250g !== undefined &&
+        entry.price_per_250g !== null &&
+        entry.price_per_250g !== ""
+          ? "€" + Number(entry.price_per_250g).toFixed(2)
+          : ""
+      ],
+      ["Recipe", entry.recipe]
+    ].filter(function (detail) {
+      return detail[1] !== undefined && detail[1] !== null && detail[1] !== "";
+    });
+
+    if (coffeeDetails.length) {
+      html += '<div class="gh"><span>Coffee details</span></div>';
+      coffeeDetails.forEach(function (detail) {
+        html +=
+          '<div class="ln"><span>' +
+          esc(detail[0]) +
+          '</span><b style="text-align:right;max-width:65%">' +
+          esc(detail[1]) +
+          "</b></div>";
+      });
+    }
+  }
+
+  groups.forEach(function (group, groupIndex) {
+    var average = gavg(ratings, groups, groupIndex);
     html +=
       '<div class="gh"><span>' +
       group.t +
@@ -89,7 +131,7 @@ function report(entry) {
 
   if (entry.note) {
     html +=
-      '<div class="gh"><span>Gut impression</span></div><div class="ln" style="display:block">' +
+      '<div class="gh"><span>Tasting notes</span></div><div class="ln" style="display:block">' +
       esc(entry.note) +
       "</div>";
   }
@@ -105,7 +147,11 @@ function renderReviews(entries, listId, emptyText) {
   }
 
   var sorted = entries.slice().sort(function (a, b) {
-    return Number(b.score) - Number(a.score);
+    var groups = groupsFor(a.category);
+    return (
+      scoreFor(b.ratings || {}, groupsFor(b.category)) -
+      scoreFor(a.ratings || {}, groups)
+    );
   });
   list.innerHTML = "";
 
@@ -113,21 +159,33 @@ function renderReviews(entries, listId, emptyText) {
     var details = document.createElement("details");
     details.className = "entry";
 
-    var metadata = [
-      entry.date,
-      entry.double_price !== "" && entry.double_price !== null
-        ? "Double " + entry.double_price + " €"
-        : "",
-      entry.single_price !== "" && entry.single_price !== null
-        ? "Single " + entry.single_price + " €"
-        : ""
-    ]
+    var metadata =
+      entry.category === "home"
+        ? [
+            entry.roasting_date ? "Roasted " + entry.roasting_date : "",
+            entry.price_per_250g !== undefined &&
+            entry.price_per_250g !== null &&
+            entry.price_per_250g !== ""
+              ? "€" + Number(entry.price_per_250g).toFixed(2) + " / 250g"
+              : ""
+          ]
+        : [
+            entry.date,
+            entry.double_price !== "" && entry.double_price !== null
+              ? "Double " + entry.double_price + " €"
+              : "",
+            entry.single_price !== "" && entry.single_price !== null
+              ? "Single " + entry.single_price + " €"
+              : ""
+          ];
+    metadata = metadata
       .filter(Boolean)
       .join(", ");
 
     details.innerHTML =
       '<summary><div class="sc">' +
-      esc(entry.score) +
+      f1(scoreFor(entry.ratings || {}, groupsFor(entry.category))) +
+      "/15" +
       '</div><div class="m"><div>' +
       esc(entry.cafe || "Unnamed café") +
       "</div><div>" +
@@ -147,30 +205,36 @@ function renderComparison(entries, comparisonId) {
   }
 
   var sorted = entries.slice().sort(function (a, b) {
-    return Number(b.score) - Number(a.score);
+    var groups = groupsFor(a.category);
+    return (
+      scoreFor(b.ratings || {}, groupsFor(b.category)) -
+      scoreFor(a.ratings || {}, groups)
+    );
   });
+  var groups = groupsFor(sorted[0].category);
   var table = "<table><tr><th></th>";
   sorted.forEach(function (entry) {
     table += "<th>" + esc(entry.cafe || "Unnamed") + "</th>";
   });
-  table += '</tr><tr class="g"><td>Total (of 100)</td>';
+  table += '</tr><tr class="g"><td>Total (sum of group averages / 15)</td>';
   sorted.forEach(function (entry) {
-    table += "<td>" + esc(entry.score) + "</td>";
+    table +=
+      "<td>" + f1(scoreFor(entry.ratings || {}, groups)) + " / 15</td>";
   });
   table += "</tr>";
 
-  GROUPS.forEach(function (group, groupIndex) {
-    table += '<tr class="g"><td>' + group.t + " (avg of 5)</td>";
+  groups.forEach(function (group, groupIndex) {
+    table += '<tr class="g"><td>' + esc(group.t) + " (avg of 5)</td>";
     sorted.forEach(function (entry) {
       table +=
-        "<td>" + f1(gavg(entry.ratings || {}, groupIndex)) + "</td>";
+        "<td>" + f1(gavg(entry.ratings || {}, groups, groupIndex)) + "</td>";
     });
     table += "</tr>";
 
     group.items.forEach(function (item, itemIndex) {
       table +=
         "<tr><td>" +
-        (item[1] === "yn" ? "Tap water" : item[0]) +
+        esc(item[1] === "yn" ? "Tap water" : item[0]) +
         "</td>";
       sorted.forEach(function (entry) {
         var value = (entry.ratings || {})[groupIndex + "-" + itemIndex];
