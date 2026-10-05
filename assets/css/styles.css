@@ -1,0 +1,370 @@
+:root {
+  --bg: #eef1f2;
+  --card: #fff;
+  --ink: #1c1b1a;
+  --mute: #66707a;
+  --line: #d5dbdf;
+  --accent: #2f5d62;
+  --crema: #c98a2e;
+  --on: #fff;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #f3f0f0;
+    --card: #734128;
+    --ink: #0d0c09;
+    --mute: #0d0c09;
+    --accent: #C7A07A;
+    --crema: #C7A07A;
+    --on: #ffffff;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #141718;
+  --card: #1d2224;
+  --ink: #eceae6;
+  --mute: #93a0a8;
+  --line: #323a3e;
+  --accent: #6fb0b6;
+  --crema: #e0a64e;
+  --on: #10181a;
+}
+
+/* Base layout */
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Lucida Console";
+  line-height: 1.45;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+h1 {
+  margin: 8px 0 4px;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  margin: 0 0 20px;
+  color: var(--mute);
+}
+
+.status {
+  min-height: 1.45em;
+  margin: -12px 0 12px;
+  color: var(--mute);
+  font-size: 0.9rem;
+}
+
+.status.error {
+  color: #a32924;
+}
+
+section {
+  margin-bottom: 14px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+
+h2 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.w {
+  color: var(--mute);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+/* Café details and rating controls */
+label.f {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--mute);
+  font-size: 0.85rem;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea {
+  width: 100%;
+  margin-top: 4px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.crit {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.crit:first-of-type {
+  border-top: 0;
+}
+
+.crit .n {
+  font-weight: 600;
+}
+
+.crit .h {
+  color: var(--mute);
+  font-size: 0.8rem;
+}
+
+.scale {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.scale button,
+.yn button {
+  padding: 9px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+}
+
+.scale button[aria-pressed="true"],
+.yn button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on);
+  font-weight: 600;
+}
+
+.yn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--crema);
+  outline-offset: 2px;
+}
+
+/* Score and actions */
+.total {
+  position: sticky;
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 14px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.total b {
+  color: var(--crema);
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.total span {
+  font-size: 0.85rem;
+}
+
+.act {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--crema);
+  color: #1c1b1a;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.ghost {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--mute);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+/* Saved cafés and reports */
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.entry:first-child {
+  border-top: 0;
+}
+
+.sc {
+  min-width: 3ch;
+  color: var(--accent);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.entry .m {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry .m div:first-child {
+  font-weight: 600;
+}
+
+.entry .m div + div {
+  color: var(--mute);
+  font-size: 0.85rem;
+}
+
+.empty {
+  color: var(--mute);
+}
+
+details.entry {
+  display: block;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+details.entry:first-child {
+  border-top: 0;
+}
+
+details.entry > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+details.entry > summary::-webkit-details-marker {
+  display: none;
+}
+
+.rep {
+  padding: 4px 0 14px;
+}
+
+.gh {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.bar {
+  height: 6px;
+  margin: 4px 0 6px;
+  border-radius: 3px;
+  background: var(--line);
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+}
+
+.ln {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  color: var(--mute);
+  font-size: 0.9rem;
+}
+
+.ln b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Café comparison table */
+.tw {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  padding: 6px 8px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  white-space: nowrap;
+}
+
+th:first-child,
+td:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--card);
+  text-align: left;
+}
+
+tr.g td {
+  background: var(--bg);
+  font-weight: 600;
+}
+
+tr.g td:first-child {
+  background: var(--bg);
+}
