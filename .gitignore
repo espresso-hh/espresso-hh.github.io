@@ -51,7 +51,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-.venv
 env/
 
 venv/
@@ -155,10 +154,6 @@ pyrightconfig.json
 profile_default/
 .nox/
 .spyproject
-
-# Local application data
-/data/espresso.db
-/data/espresso.db-*
 
 # macOS
 .DS_Store

@@ -1,36 +1,27 @@
 # Double Espresso Tasting Sheet
 
-The tasting sheet uses a Flask API and SQLAlchemy to store café visits in a
-local SQLite database.
+This is a static GitHub Pages site. It needs no Flask server, database, account
+password, build step, or third-party backend.
 
-## Run locally
+## View the site
 
-```sh
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python app.py
-```
+Open the published GitHub Pages URL. The public page reads café reviews from
+[`reviews.json`](./reviews.json), and review photos are served from
+`assets/reviews/`.
 
-Open <http://127.0.0.1:5000> in a browser. Keep the server running while using
-the page; opening `index.html` directly will not connect to the database.
+Each review has a `category` field in `reviews.json`:
 
-By default the database is created at `data/espresso.db`. To select a different
-SQLAlchemy database URL, set `ESPRESSO_DATABASE_URL` before starting the app.
+- Use `"home"` for espresso made at home.
+- Use `"cafe"` for espresso tasted at a café.
 
-## Data model
+Reviews and photos can be added or changed directly in `reviews.json` and
+`assets/reviews/`, then published by committing the changes to GitHub.
 
-- `cafes` stores each café once by name.
-- `tastings` stores each visit, its date, single and double espresso prices,
-  written impression, and calculated score.
-- `ratings` stores each individual criterion score for a tasting.
-
-Existing tasting entries in this browser's local storage are imported when the
-page is next opened through the Flask server. The browser copy is removed only
-after the import completes.
-
-## Tests
+The page can also be tested locally with any static-file server. For example:
 
 ```sh
-python -m unittest discover -s tests
+python3 -m http.server
 ```
+
+Then open <http://localhost:8000>. Opening the HTML file directly with `file://`
+may prevent the browser from loading `reviews.json`.

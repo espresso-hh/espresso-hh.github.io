@@ -3,48 +3,33 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Double Espresso Tasting Sheet</title>
+<title>Espresso reviews</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <main>
-<h1>Espresso tasting sheet</h1>
-<p class="sub">Rate 1 (poor) to 5 (excellent). The score is weighted, out of 100.</p>
+<h1>Espresso reviews</h1>
+<p class="sub">Espresso tasting notes, scores, and comparisons.</p>
 <p id="status" class="status" role="status" aria-live="polite"></p>
 
 <section>
-<div class="row2">
-<label class="f">Café<input type="text" id="cafe" placeholder="Name"></label>
-<label class="f">Date<input type="date" id="date"></label>
-</div>
-<div class="row2">
-<label class="f">Price double espresso (€)<input type="number" id="doublePrice" step="0.01" min="0" inputmode="decimal"></label>
-<label class="f">Price single espresso (€)<input type="number" id="singlePrice" step="0.01" min="0" inputmode="decimal"></label>
-</div>
-</section>
-
-<div id="groups"></div>
-
-<section>
-<h2>Gut impression</h2>
-<textarea id="note" rows="3" placeholder="Aroma, would you come back, anything else"></textarea>
-</section>
-
-<div class="total" aria-live="polite"><div><span>Score</span><br><b id="score">0</b><span> / 100</span></div><button class="act" id="save">Save this café</button></div>
-
-<section>
-<h2>Your ranking</h2>
-<div class="w" style="margin-bottom:6px">Tap a café to open its full report.</div>
-<div id="list"></div>
+<h2>At home</h2>
+<div class="w" style="margin-bottom:6px">Reviews of espresso made at home.</div>
+<div id="homeList"></div>
+<h2 class="comparison-heading">Comparison</h2>
+<div class="tw" id="homeComparison"></div>
 </section>
 
 <section>
-<h2>Comparison</h2>
-<div class="tw" id="cmp"></div>
+<h2>Espresso at cafés</h2>
+<div class="w" style="margin-bottom:6px">Reviews of espresso enjoyed at cafés.</div>
+<div id="cafeList"></div>
+<h2 class="comparison-heading">Comparison</h2>
+<div class="tw" id="cafeComparison"></div>
 </section>
 </main>
-
+<script src="assets/js/criteria.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>
