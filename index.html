@@ -4,31 +4,66 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Espresso reviews</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <main>
-<h1>Espresso reviews</h1>
-<p class="sub">Espresso tasting notes, scores, and comparisons.</p>
-<p id="status" class="status" role="status" aria-live="polite"></p>
+<header class="site-header">
+<h1 class="typing-title"><span class="typing-title-reveal" aria-hidden="true"><span>Espresso</span><span>Hamburg</span><span>reviews</span></span>Espresso Hamburg reviews</h1>
+<nav class="site-nav" aria-label="Main navigation">
+<a href="about.html">About Me</a>
+<a href="blog.html">Blog</a>
+</nav>
+</header>
 
-<section>
-<h2>At home</h2>
-<div class="w" style="margin-bottom:6px">Reviews of espresso made at home.</div>
-<div id="homeList"></div>
-<h2 class="comparison-heading">Comparison</h2>
-<div class="tw" id="homeComparison"></div>
+<section class="about-intro" aria-labelledby="about-intro-title">
+<img src="/assets/reviews/IMG_2531.JPG" alt="Coffee package, used as a temporary About Me photo">
+<div>
+<h2 id="about-intro-title">About Me</h2>
+<p>I keep notes on espresso I try at cafés around Hamburg and coffee I brew at home. This is my kind of my tasting diary.</p>
+<a class="text-link" href="about.html">More about me</a>
+</div>
 </section>
+
+<p id="status" class="status" role="status" aria-live="polite"></p>
 
 <section>
 <h2>Espresso at cafés</h2>
 <div class="w" style="margin-bottom:6px">Reviews of espresso enjoyed at cafés.</div>
-<div id="cafeList"></div>
+<div id="cafeList" class="review-list"></div>
 <h2 class="comparison-heading">Comparison</h2>
+<div class="compare-picker">
+<p class="compare-hint">Choose 2 or 3 cafés to compare.</p>
+<div id="cafeCompareOptions" class="compare-options"></div>
+<div class="compare-actions">
+<span id="cafeCompareCount" class="compare-count" aria-live="polite">0 selected</span>
+<button id="cafeCompareButton" class="act compare-button" type="button" disabled>Compare selected</button>
+</div>
+</div>
 <div class="tw" id="cafeComparison"></div>
 </section>
+
+<section>
+<h2>At home</h2>
+<div class="w" style="margin-bottom:6px">Reviews of espresso made at home with bialetti mokka pot.</div>
+<div id="homeList" class="review-list"></div>
+<h2 class="comparison-heading">Comparison</h2>
+<div class="compare-picker">
+<p class="compare-hint">Choose 2 or 3 coffees to compare.</p>
+<div id="homeCompareOptions" class="compare-options"></div>
+<div class="compare-actions">
+<span id="homeCompareCount" class="compare-count" aria-live="polite">0 selected</span>
+<button id="homeCompareButton" class="act compare-button" type="button" disabled>Compare selected</button>
+</div>
+</div>
+<div class="tw" id="homeComparison"></div>
+</section>
+
 </main>
+<footer class="site-footer">
+<a href="impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
+</footer>
 <script src="assets/js/criteria.js"></script>
 <script src="assets/js/app.js"></script>
 </body>

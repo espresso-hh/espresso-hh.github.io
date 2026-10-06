@@ -48,3 +48,31 @@ python3 -m http.server
 
 Then open <http://localhost:8000>. Opening the HTML file directly with `file://`
 may prevent the browser from loading `reviews.json`.
+
+## Blog posts
+
+Open `blog-posts.json` and add a post object to its top-level array. Each post
+has an `image` path, `heading`, `subheading`, `paragraphs` array, `signature`,
+and ISO `date` (for example, `"2026-10-07"`). Put image files in
+`assets/reviews/` and set `image` to their relative path, such as
+`"assets/reviews/my-coffee.jpg"`. The blog page displays newest posts first.
+
+For example:
+
+```json
+{
+  "image": "assets/reviews/my-coffee.jpg",
+  "image_alt": "A cup of coffee by the window",
+  "heading": "A new coffee discovery",
+  "subheading": "A short introduction to the post",
+  "paragraphs": [
+    "First paragraph of the post.",
+    "Second paragraph of the post."
+  ],
+  "signature": "Your name",
+  "date": "2026-10-07"
+}
+```
+
+The site is static, so posts are published by committing the JSON and image
+files; the page does not save edits made in the browser.

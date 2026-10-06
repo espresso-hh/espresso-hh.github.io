@@ -50,6 +50,50 @@ function scoreFor(ratings, groups) {
   }, 0);
 }
 
+function reviewDateValue(entry) {
+  var value = entry.category === "home" ? entry.roasting_date : entry.date;
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  var match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  var year;
+  var month;
+  var day;
+  if (match) {
+    year = Number(match[1]);
+    month = Number(match[2]);
+    day = Number(match[3]);
+  } else {
+    match = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+    if (!match) {
+      return null;
+    }
+    day = Number(match[1]);
+    month = Number(match[2]);
+    year = Number(match[3]);
+  }
+
+  var timestamp = Date.UTC(year, month - 1, day);
+  var parsed = new Date(timestamp);
+  return parsed.getUTCFullYear() === year &&
+    parsed.getUTCMonth() === month - 1 &&
+    parsed.getUTCDate() === day
+    ? timestamp
+    : null;
+}
+
+function newestFirst(entries) {
+  return entries.slice().sort(function (a, b) {
+    var dateA = reviewDateValue(a);
+    var dateB = reviewDateValue(b);
+    if (dateA === null || dateB === null) {
+      return dateA === dateB ? 0 : dateA === null ? 1 : -1;
+    }
+    return dateB - dateA;
+  });
+}
+
 function f1(value) {
   return value === null ? "-" : (Math.round(value * 10) / 10).toFixed(1);
 }
@@ -146,16 +190,9 @@ function renderReviews(entries, listId, emptyText) {
     return;
   }
 
-  var sorted = entries.slice().sort(function (a, b) {
-    var groups = groupsFor(a.category);
-    return (
-      scoreFor(b.ratings || {}, groupsFor(b.category)) -
-      scoreFor(a.ratings || {}, groups)
-    );
-  });
   list.innerHTML = "";
 
-  sorted.forEach(function (entry) {
+  entries.forEach(function (entry) {
     var details = document.createElement("details");
     details.className = "entry";
 
@@ -200,7 +237,7 @@ function renderComparison(entries, comparisonId) {
   var comparison = $(comparisonId);
   if (entries.length < 2) {
     comparison.innerHTML =
-      '<div class="empty">Add two or more reviews in this category to compare them.</div>';
+      '<div class="empty">Choose two or three reviews above, then select Compare selected.</div>';
     return;
   }
 
@@ -255,18 +292,78 @@ function renderComparison(entries, comparisonId) {
   comparison.innerHTML = table + "</table>";
 }
 
+function setupComparisonPicker(entries, category) {
+  var prefix = category === "home" ? "home" : "cafe";
+  var options = $(prefix + "CompareOptions");
+  var count = $(prefix + "CompareCount");
+  var button = $(prefix + "CompareButton");
+  var comparisonId = prefix + "Comparison";
+  var comparison = $(comparisonId);
+
+  options.innerHTML = "";
+  entries.forEach(function (entry) {
+    var index = saved.indexOf(entry);
+    var label = document.createElement("label");
+    label.className = "compare-option";
+
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = String(index);
+
+    var name = document.createElement("span");
+    name.className = "compare-name";
+    name.textContent = entry.cafe || (category === "home" ? "Unnamed coffee" : "Unnamed café");
+
+    var details = document.createElement("span");
+    details.className = "compare-detail";
+    details.textContent =
+      f1(scoreFor(entry.ratings || {}, groupsFor(entry.category))) + " / 15";
+
+    label.appendChild(checkbox);
+    label.appendChild(name);
+    label.appendChild(details);
+    options.appendChild(label);
+  });
+
+  function updateSelection(event) {
+    var selected = options.querySelectorAll('input[type="checkbox"]:checked');
+    if (selected.length > 3 && event && event.target.checked) {
+      event.target.checked = false;
+      selected = options.querySelectorAll('input[type="checkbox"]:checked');
+    }
+    count.textContent = selected.length + " selected";
+    button.disabled = selected.length < 2;
+    comparison.innerHTML =
+      '<div class="empty">Choose two or three reviews above, then select Compare selected.</div>';
+  }
+
+  options.addEventListener("change", updateSelection);
+  button.addEventListener("click", function () {
+    var selectedEntries = Array.prototype.map.call(
+      options.querySelectorAll('input[type="checkbox"]:checked'),
+      function (checkbox) {
+        return saved[Number(checkbox.value)];
+      }
+    );
+    renderComparison(selectedEntries, comparisonId);
+  });
+
+  renderComparison([], comparisonId);
+  updateSelection();
+}
+
 function render() {
-  var homeReviews = saved.filter(function (entry) {
+  var homeReviews = newestFirst(saved.filter(function (entry) {
     return entry.category === "home";
-  });
-  var cafeReviews = saved.filter(function (entry) {
+  }));
+  var cafeReviews = newestFirst(saved.filter(function (entry) {
     return entry.category !== "home";
-  });
+  }));
 
   renderReviews(homeReviews, "homeList", "No at-home reviews have been published yet.");
   renderReviews(cafeReviews, "cafeList", "No café reviews have been published yet.");
-  renderComparison(homeReviews, "homeComparison");
-  renderComparison(cafeReviews, "cafeComparison");
+  setupComparisonPicker(homeReviews, "home");
+  setupComparisonPicker(cafeReviews, "cafe");
 }
 
 async function initialize() {
