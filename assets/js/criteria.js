@@ -33,7 +33,7 @@ window.ESPRESSO_GROUPS = [
 ];
 window.ESPRESSO_ATHOME_GROUPS = [
   {
-    t: "Beans and preparation",
+    t: "Beans quality",
     w: 1,
     items: [
       ["Bean freshness", "How fresh and aromatic the beans are"],

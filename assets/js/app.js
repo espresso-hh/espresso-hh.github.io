@@ -123,6 +123,14 @@ function report(entry) {
           ? "€" + Number(entry.price_per_250g).toFixed(2)
           : ""
       ],
+      [
+        "SCA rating",
+        typeof entry.sca_rating === "number" && Number.isFinite(entry.sca_rating)
+          ? entry.sca_rating
+          : entry.sca_rating === "No SCA rating"
+            ? entry.sca_rating
+            : ""
+      ],
       ["Recipe", entry.recipe]
     ].filter(function (detail) {
       return detail[1] !== undefined && detail[1] !== null && detail[1] !== "";

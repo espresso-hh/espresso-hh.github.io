@@ -15,10 +15,11 @@ criteria are shown:
 - Use `"home"` for espresso made at home.
 - Use `"cafe"` for espresso tasted at a café.
 
-Home reviews use `roasting_date`, `price_per_250g`, and `recipe` instead of
-visit date and espresso-shot prices. Use an ISO date such as `"2026-09-20"` for
-`roasting_date`, a number in euros for `price_per_250g`, and text describing
-the recipe (for example, `"18g coffee in, 36g espresso out, 28 seconds."`).
+Home reviews use `roasting_date`, `price_per_250g`, `sca_rating`, and `recipe`
+instead of visit date and espresso-shot prices. Use an ISO date such as
+`"2026-09-20"` for `roasting_date`, a number in euros for `price_per_250g`, a
+number or `"No SCA rating"` for `sca_rating`, and text describing the recipe
+(for example, `"18g coffee in, 36g espresso out, 28 seconds."`).
 
 Café reviews keep the original `date`, `double_price`, and `single_price`
 fields; they do not need home coffee's roasting date, bag price, or recipe.
@@ -52,10 +53,14 @@ may prevent the browser from loading `reviews.json`.
 ## Blog posts
 
 Open `blog-posts.json` and add a post object to its top-level array. Each post
-has an `image` path, `heading`, `subheading`, `paragraphs` array, `signature`,
-and ISO `date` (for example, `"2026-10-07"`). Put image files in
-`assets/reviews/` and set `image` to their relative path, such as
-`"assets/reviews/my-coffee.jpg"`. The blog page displays newest posts first.
+has an `image` path or an `images` array, `heading`, `subheading`, `paragraphs`
+array, `signature`, and ISO `date` (for example, `"2026-10-07"`). Put image
+files in `assets/reviews/` and set image paths relative to the site, such as
+`"assets/reviews/my-coffee.jpg"`. An `images` array displays a horizontal
+gallery that advances automatically and loops continuously; readers can also
+swipe or scroll through it. Each item has a `src` path and optional `alt` text.
+Existing posts using `image` continue to display a single picture. The blog
+page displays newest posts first.
 
 For example:
 
@@ -72,6 +77,15 @@ For example:
   "signature": "Your name",
   "date": "2026-10-07"
 }
+```
+
+For a gallery, replace `image` and `image_alt` with an `images` array:
+
+```json
+"images": [
+  { "src": "assets/reviews/IMG_0929.webp", "alt": "Affogato in Rome" },
+  { "src": "assets/reviews/another-photo.webp", "alt": "The café interior" }
+]
 ```
 
 The site is static, so posts are published by committing the JSON and image

@@ -218,6 +218,21 @@ h1 {
   text-decoration-color: currentColor;
 }
 
+.disclaimer {
+  margin-bottom: 12px;
+  padding: 9px 12px;
+  border: 1px solid rgb(67 57 47 / 18%);
+  border-radius: 8px;
+  background: var(--card);
+}
+
+.disclaimer p {
+  margin: 0;
+  color: #714423;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
 .about-intro {
   display: flex;
   align-items: center;
@@ -274,11 +289,27 @@ h1 {
 }
 
 .blog-post {
+  position: relative;
   margin-bottom: 14px;
+  padding-bottom: 24px;
+}
+
+.blog-post::after {
+  position: absolute;
+  right: 20%;
+  bottom: 0;
+  left: 20%;
+  border-top: 3px double var(--accent);
+  content: "";
 }
 
 .blog-post:last-child {
   margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.blog-post:last-child::after {
+  display: none;
 }
 
 .blog-post h2 {
@@ -300,6 +331,61 @@ h1 {
   margin: 0 0 16px;
   border-radius: 8px;
   object-fit: cover;
+}
+
+.blog-gallery {
+  overflow: hidden;
+  background: #fff;
+  touch-action: pan-y;
+}
+
+.blog-gallery-track {
+  display: flex;
+  width: 100%;
+  transition: transform 900ms cubic-bezier(0.45, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.blog-gallery-track.no-transition {
+  transition: none;
+}
+
+.blog-gallery:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.blog-gallery-slide {
+  flex: 0 0 100%;
+}
+
+.blog-gallery .blog-gallery-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  margin: 0 auto;
+  border-radius: 8px 8px 0 0;
+  object-fit: contain;
+}
+
+.blog-gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.blog-gallery-count {
+  color: var(--mute);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-gallery-track {
+    transition: none;
+  }
 }
 
 .blog-copy p:last-child {
@@ -400,9 +486,9 @@ textarea {
 
 .review-image {
   display: block;
-  width: 100%;
-  max-height: 420px;
-  margin: 10px 0;
+  width: min(100%, 240px);
+  aspect-ratio: 3 / 4;
+  margin: 10px auto;
   border-radius: 10px;
   object-fit: cover;
 }
