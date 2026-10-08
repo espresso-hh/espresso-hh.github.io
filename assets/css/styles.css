@@ -6,7 +6,7 @@
   --ink: #2f1b12;
   --mute: #714423;
   --line: #97704f;
-  --accent: #714423;
+  --accent: #a95424;
   --accent-soft: #e7d0b5;
   --crema: #43392f;
   --on: #f6eadb;
@@ -25,7 +25,7 @@
     --ink: #f0d8bf;
     --mute: #deaf84;
     --line: #714423;
-    --accent: #deaf84;
+    --accent: #a95424;
     --accent-soft: #e7d0b5;
     --crema: #deaf84;
     --on: #2f1b12;
@@ -40,7 +40,7 @@
   --ink: #f0d8bf;
   --mute: #deaf84;
   --line: #714423;
-  --accent: #deaf84;
+  --accent: #a95424;
   --accent-soft: #e7d0b5;
   --crema: #deaf84;
   --on: #2f1b12;
@@ -51,7 +51,7 @@
     --ink: #2f1b12;
     --mute: #714423;
     --line: #97704f;
-    --accent: #714423;
+    --accent: #a95424;
     --accent-soft: #e7d0b5;
     --crema: #43392f;
     --on: #f6eadb;
@@ -63,7 +63,7 @@
   --ink: #2f1b12;
   --mute: #714423;
   --line: #97704f;
-  --accent: #714423;
+  --accent: #a95424;
   --accent-soft: #e7d0b5;
   --crema: #43392f;
   --on: #f6eadb;
@@ -87,7 +87,8 @@ body {
   color: var(--ink);
   font-family:
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.45;
+  font-weight: 350;
+  line-height: 1.55;
 }
 
 body::before {
@@ -130,14 +131,29 @@ main {
 
 h1 {
   margin: 8px 0 4px;
-  font-size: clamp(1.7rem, 7vw, 2rem);
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: clamp(2.15rem, 6.6vw, 2.65rem);
   font-weight: 600;
   letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+h2 {
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
 .typing-title {
   position: relative;
   color: color-mix(in srgb, var(--ink) 38%, var(--bg));
+}
+
+.eyebrow {
+  margin: 8px 0 2px;
+  color: var(--mute);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .typing-title-reveal {
@@ -201,21 +217,57 @@ h1 {
   margin-top: 12px;
   padding: 10px 0;
   border-top: 1px solid rgb(67 57 47 / 24%);
-  border-bottom: 1px solid rgb(67 57 47 / 24%);
+  border-bottom: 1px solid rgb(222 175 132 / 38%);
 }
 
-.site-nav a,
-.text-link {
+.site-nav a {
+  position: relative;
+  padding: 4px 0 7px;
   color: var(--ink);
   font-size: 0.9rem;
   font-weight: 600;
-  text-decoration-color: transparent;
-  text-underline-offset: 3px;
+  text-decoration: none;
+}
+
+.site-nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--accent);
+  content: "";
+  transition: transform 160ms ease;
+}
+
+.site-nav a:hover::after,
+.site-nav a[aria-current="page"]::after {
+  transform: scaleX(1);
 }
 
 .site-nav a:hover,
-.text-link:hover {
+.site-nav a[aria-current="page"] {
+  color: var(--accent);
+}
+
+.text-link {
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
   text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+}
+
+.text-link:hover {
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}
+
+.text-link::after {
+  content: " →";
+  text-decoration: none;
 }
 
 .disclaimer {
@@ -245,9 +297,10 @@ h1 {
 }
 
 .about-intro img {
-  flex: 0 0 112px;
-  width: 112px;
-  height: 112px;
+  flex: 0 0 clamp(68px, 18vw, 112px);
+  width: clamp(68px, 18vw, 112px);
+  height: clamp(68px, 18vw, 112px);
+  aspect-ratio: 1;
   border-radius: 8px;
   object-fit: cover;
 }
@@ -260,14 +313,19 @@ h1 {
   margin: 0 0 5px;
   color: var(--mute);
   font-size: 0.9rem;
+  line-height: 1.65;
+  font-weight: 350;
 }
 
 .info-section img {
-  flex: 0 0 84px;
-  width: 524px;
-  height: 252px;
+  display: block;
+  width: 100%;
+  max-width: 524px;
+  max-height: min(65vh, 460px);
+  height: auto;
+  margin: 0 auto 12px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .info-section h2 {
@@ -278,6 +336,8 @@ h1 {
   margin: 0 0 5px;
   color: var(--mute);
   font-size: 0.9rem;
+  line-height: 1.65;
+  font-weight: 350;
 }
 
 .info-section {
@@ -327,10 +387,11 @@ h1 {
 .blog-image {
   display: block;
   width: 100%;
-  max-height: 460px;
+  max-height: min(65vh, 460px);
+  height: auto;
   margin: 0 0 16px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .blog-gallery {
@@ -363,7 +424,7 @@ h1 {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 460px;
+  max-height: min(65vh, 460px);
   margin: 0 auto;
   border-radius: 8px 8px 0 0;
   object-fit: contain;
@@ -421,7 +482,7 @@ h1 {
 }
 
 .site-footer a:hover {
-  color: var(--ink);
+  color: var(--accent);
   text-decoration-color: currentColor;
 }
 
@@ -449,6 +510,14 @@ section {
   background: var(--card);
 }
 
+:is(.disclaimer, .about-intro, section) {
+  border-color: rgb(255 255 255 / 32%);
+  background-color: var(--card);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 .24'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-blend-mode: multiply;
+  box-shadow: 0 12px 34px rgb(0 0 0 / 42%);
+}
+
 h2 {
   margin: 0 0 5px;
   font-size: 1.2rem;
@@ -460,6 +529,7 @@ h2 {
   color: var(--mute);
   font-size: 0.85rem;
   font-weight: 400;
+  line-height: 1.65;
 }
 
 /* Café details and rating controls */
@@ -486,8 +556,9 @@ textarea {
 
 .review-image {
   display: block;
-  width: min(100%, 240px);
+  width: min(100%, 240px, 45vh);
   aspect-ratio: 3 / 4;
+  height: auto;
   margin: 10px auto;
   border-radius: 10px;
   object-fit: cover;
@@ -682,7 +753,7 @@ textarea:focus-visible {
 }
 
 .total b {
-  color: var(--crema);
+  color: var(--accent);
   font-size: 2rem;
   font-weight: 800;
 }
@@ -695,8 +766,8 @@ textarea:focus-visible {
   padding: 10px 14px;
   border: 0;
   border-radius: 8px;
-  background: var(--crema);
-  color: #1c1b1a;
+  background: var(--accent);
+  color: #fff8ec;
   cursor: pointer;
   font: inherit;
   font-weight: 600;
@@ -704,9 +775,9 @@ textarea:focus-visible {
 
 .ghost {
   padding: 6px 10px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--accent);
   background: transparent;
-  color: var(--mute);
+  color: var(--accent);
   font-size: 0.8rem;
   font-weight: 400;
 }
@@ -725,11 +796,21 @@ textarea:focus-visible {
 }
 
 .sc {
-  flex: 0 0 4.5em;
-  color: var(--accent);
-  font-size: 1rem;
+  display: grid;
+  flex: 0 0 5.2em;
+  width: 5.2em;
+  height: 5.2em;
+  place-items: center;
+  border: 3px solid rgb(255 255 255 / 28%);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 3px 8px rgb(47 27 18 / 22%);
+  color: #fff8ec;
+  font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 650;
+  font-weight: 750;
+  line-height: 1;
+  text-align: center;
 }
 
 .entry .m {
@@ -741,9 +822,26 @@ textarea:focus-visible {
   font-weight: 600;
 }
 
-.entry .m div + div {
+.entry-name {
+  margin-bottom: 5px;
+}
+
+.entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+}
+
+.entry-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border: 1px solid rgb(113 68 35 / 22%);
+  border-radius: 999px;
+  background: var(--card-raised);
   color: var(--mute);
   font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .empty {
@@ -764,9 +862,22 @@ details.entry > summary {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 0;
+  margin: 4px 0;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: var(--card);
   cursor: pointer;
   list-style: none;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+details.entry > summary:hover {
+  transform: translateY(-2px);
+  background: var(--card-raised);
+  box-shadow: 0 5px 14px rgb(47 27 18 / 16%);
 }
 
 details.entry > summary::-webkit-details-marker {
@@ -866,6 +977,10 @@ tr.g td {
   font-weight: 600;
 }
 
+a {
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
 tr:last-child td {
   border-bottom: 0;
 }
@@ -879,12 +994,6 @@ tr:last-child td {
   .about-intro {
     align-items: flex-start;
     gap: 12px;
-  }
-
-  .about-intro img {
-    flex-basis: 68px;
-    width: 68px;
-    height: 68px;
   }
 
   th,

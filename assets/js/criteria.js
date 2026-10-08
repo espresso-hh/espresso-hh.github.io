@@ -1,62 +1,62 @@
 window.ESPRESSO_GROUPS = [
   {
-    t: "Taste",
+    t: "Geschmack",
     w: 1,
     items: [
-      ["Sourness", "5 = pleasant, lively acidity; 1 = sharp or flat"],
-      ["Bitterness", "5 = pleasant depth; 1 = harsh or burnt"],
-      ["Sweetness", "Natural sweetness in the shot"],
-      ["Balance", "How well sour, bitter and sweet fit together"]
+      ["Säure", "5 = angenehm und lebendig; 1 = spitz oder flach"],
+      ["Bitterkeit", "5 = angenehme Tiefe; 1 = streng oder verbrannt"],
+      ["Süße", "Natürliche Süße im Espresso"],
+      ["Balance", "Wie gut Säure, Bitterkeit und Süße zusammenpassen"]
     ]
   },
   {
-    t: "Texture and finish",
+    t: "Textur und Abgang",
     w: 1,
     items: [
-      ["Creaminess", "Mouthfeel and crema"],
-      ["Crema look", "Colour, thickness, how long it lasts"],
-      ["Body", "Thin and watery to syrupy"],
-      ["Aftertaste", "Pleasant and lingering, or ashy"]
+      ["Cremigkeit", "Mundgefühl und Crema"],
+      ["Crema", "Farbe, Dichte und Beständigkeit"],
+      ["Körper", "Von dünn und wässrig bis sirupartig"],
+      ["Nachgeschmack", "Angenehm und anhaltend oder aschig"]
     ]
   },
   {
-    t: "Experience",
+    t: "Erlebnis",
     w: 1,
     items: [
-      ["Dishes", "Look of the cup, saucer, spoon"],
-      ["Temperature", "Cup pre-warmed, coffee not lukewarm"],
-      ["Service and ambience", "Friendliness, seating, noise"],
-      ["Value for money", "Compared with the price"],
-      ["Tap water", "yn"]
+      ["Geschirr", "Aussehen von Tasse, Untertasse und Löffel"],
+      ["Temperatur", "Vorgewärmte Tasse, Espresso nicht lauwarm"],
+      ["Service und Atmosphäre", "Freundlichkeit, Sitzplätze und Lautstärke"],
+      ["Preis-Leistung", "Im Verhältnis zum Preis"],
+      ["Leitungswasser", "yn"]
     ]
   }
 ];
 window.ESPRESSO_ATHOME_GROUPS = [
   {
-    t: "Beans quality",
+    t: "Bohnenqualität",
     w: 1,
     items: [
-      ["Bean freshness", "How fresh and aromatic the beans are"],
+      ["Frische der Bohnen", "Wie frisch und aromatisch die Bohnen sind"]
     ]
   },
   {
-    t: "Taste",
+    t: "Geschmack",
     w: 1,
     items: [
-      ["Acidity", "5 = pleasant, lively acidity; 1 = sharp or flat"],
-      ["Bitterness", "5 = pleasant depth; 1 = harsh or burnt"],
-      ["Sweetness", "Natural sweetness in the coffee"],
-      ["Balance", "How well sour, bitter and sweet fit together"]
+      ["Säure", "5 = angenehm und lebendig; 1 = spitz oder flach"],
+      ["Bitterkeit", "5 = angenehme Tiefe; 1 = streng oder verbrannt"],
+      ["Süße", "Natürliche Süße im Kaffee"],
+      ["Balance", "Wie gut Säure, Bitterkeit und Süße zusammenpassen"]
     ]
   },
   {
-    t: "Cup and consistency",
+    t: "Tasse und Beständigkeit",
     w: 1,
     items: [
-      ["Aroma", "Fragrance before and after brewing"],
-      ["Body", "Thin and watery to rich and full"],
-      ["Aftertaste", "Pleasant and lingering, or harsh"],
-      ["Repeatability", "How reliably a good cup can be made"]
+      ["Aroma", "Duft vor und nach der Zubereitung"],
+      ["Körper", "Von dünn und wässrig bis kräftig und vollmundig"],
+      ["Nachgeschmack", "Angenehm und anhaltend oder streng"],
+      ["Reproduzierbarkeit", "Wie zuverlässig eine gute Tasse gelingt"]
     ]
   }
 ];

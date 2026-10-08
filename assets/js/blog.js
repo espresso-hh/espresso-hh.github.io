@@ -15,7 +15,7 @@ function formatDate(value) {
     return value;
   }
 
-  return new Intl.DateTimeFormat(undefined, {
+  return new Intl.DateTimeFormat("de-DE", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -32,7 +32,7 @@ function renderPost(post) {
     : [];
   var image = images.length
     ? '<div class="blog-carousel">' +
-      '<div class="blog-gallery" tabindex="0" role="region" aria-label="Photo gallery for ' +
+      '<div class="blog-gallery" tabindex="0" role="region" aria-label="Bildergalerie: ' +
       escapeHtml(post.heading) +
       '"><div class="blog-gallery-track">' +
       images
@@ -47,7 +47,7 @@ function renderPost(post) {
         })
         .join("") +
       '</div></div><div class="blog-gallery-controls">' +
-      '<span class="blog-gallery-count" aria-live="polite">1 / ' +
+      '<span class="blog-gallery-count" aria-live="polite">1 von ' +
       images.length +
       "</span></div></div>"
     : post.image
@@ -110,7 +110,7 @@ function setupBlogGalleries(container) {
     function updatePosition() {
       track.style.transform = "translateX(-" + position * 100 + "%)";
       count.textContent = ((position - 1 + imageCount) % imageCount) + 1 +
-        " / " + imageCount;
+        " von " + imageCount;
     }
 
     function move(direction) {
@@ -174,12 +174,12 @@ async function loadBlogPosts() {
   try {
     var response = await fetch("blog-posts.json");
     if (!response.ok) {
-      throw new Error("Could not load blog-posts.json (HTTP " + response.status + ").");
+      throw new Error("blog-posts.json konnte nicht geladen werden (HTTP " + response.status + ").");
     }
 
     var posts = await response.json();
     if (!Array.isArray(posts)) {
-      throw new Error("blog-posts.json must contain a JSON array.");
+      throw new Error("blog-posts.json muss ein JSON-Array enthalten.");
     }
 
     posts.sort(function (a, b) {
@@ -188,7 +188,7 @@ async function loadBlogPosts() {
 
     if (!posts.length) {
       container.innerHTML =
-        '<section class="info-section"><h2>No posts yet</h2><p>Add your first post to <code>blog-posts.json</code>.</p></section>';
+        '<section class="info-section"><h2>Noch keine Beiträge</h2><p>Füge den ersten Beitrag zu <code>blog-posts.json</code> hinzu.</p></section>';
       return;
     }
 
@@ -196,7 +196,7 @@ async function loadBlogPosts() {
     setupBlogGalleries(container);
   } catch (error) {
     status.classList.add("error");
-    status.textContent = "Could not load blog posts. " + error.message;
+    status.textContent = "Die Blogbeiträge konnten nicht geladen werden. " + error.message;
   }
 }
 

@@ -1,72 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Espresso reviews</title>
+<title>Espresso-Bewertungen aus Hamburg</title>
+<link rel="icon" type="image/svg+xml" href="assets/espresso.svg?v=20261008-2301" sizes="any">
+<link rel="icon" type="image/png" href="assets/espresso.png?v=20261008-2301" sizes="128x128">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <main>
 <header class="site-header">
-<h1 class="typing-title"><span class="typing-title-reveal" aria-hidden="true"><span>Espresso</span><span>Hamburg</span><span>reviews</span></span>Espresso Hamburg reviews</h1>
-<nav class="site-nav" aria-label="Main navigation">
-<a href="about.html">About Me</a>
+<p class="eyebrow">Espressotagebuch</p>
+<h1 class="typing-title"><span class="typing-title-reveal" aria-hidden="true"><span>Espresso</span><span>aus</span><span>Hamburg</span></span>Espresso aus Hamburg</h1>
+<nav class="site-nav" aria-label="Hauptnavigation">
+<a href="index.html" aria-current="page">Bewertungen</a>
+<a href="about.html">Über mich</a>
 <a href="blog.html">Blog</a>
 </nav>
 </header>
 
-<aside class="disclaimer" aria-label="Disclaimer">
-<p>Disclaimer: Reviews are subjective; I use consistent criteria to make them more comparable, and I have no sponsored partnerships.</p>
-</aside>
-
 <section class="about-intro" aria-labelledby="about-intro-title">
-<img src="/assets/reviews/IMG_2531.webp" alt="Coffee package, used as a temporary About Me photo">
+<img src="/assets/reviews/IMG_2531.webp" alt="Kaffeepackung als vorläufiges Foto für die Über-mich-Seite">
 <div>
-<h2 id="about-intro-title">About Me</h2>
-<p>I keep notes on espresso I try at cafés around Hamburg and coffee I brew at home. This is my kind of my tasting diary.</p>
-<a class="text-link" href="about.html">More about me</a>
+<h2 id="about-intro-title">Über mich</h2>
+<p>Hier halte ich fest, welche Doppio-Espressi ich in Hamburger Cafés probiere und welche Bohnen ich zu Hause verwende. Willkommen in meinem Verkostungstagebuch!</p>
+<a class="text-link" href="about.html">Mehr über mich</a>
 </div>
 </section>
 
 <p id="status" class="status" role="status" aria-live="polite"></p>
 
 <section>
-<h2>Espresso at cafés</h2>
-<div class="w" style="margin-bottom:6px">Reviews of espresso enjoyed at cafés.</div>
+<h2>Espresso in Hamburger Cafés</h2>
+<div class="w" style="margin-bottom:6px">Bewertungen von Doppio-Espressi aus Cafés in der ganzen Stadt.</div>
 <div id="cafeList" class="review-list"></div>
-<h2 class="comparison-heading">Comparison</h2>
+<h2 class="comparison-heading">Vergleich</h2>
 <div class="compare-picker">
-<p class="compare-hint">Choose 2 or 3 cafés to compare.</p>
+<p class="compare-hint">Wähle zwei oder drei Cafés zum Vergleichen aus.</p>
 <div id="cafeCompareOptions" class="compare-options"></div>
 <div class="compare-actions">
-<span id="cafeCompareCount" class="compare-count" aria-live="polite">0 selected</span>
-<button id="cafeCompareButton" class="act compare-button" type="button" disabled>Compare selected</button>
+<span id="cafeCompareCount" class="compare-count" aria-live="polite">0 ausgewählt</span>
+<button id="cafeCompareButton" class="act compare-button" type="button" disabled>Auswahl vergleichen</button>
 </div>
 </div>
 <div class="tw" id="cafeComparison"></div>
 </section>
 
 <section>
-<h2>At home</h2>
-<div class="w" style="margin-bottom:6px">Reviews of espresso made at home with bialetti mokka pot.</div>
+<h2>Mokka zu Hause</h2>
+<div class="w" style="margin-bottom:6px">Bewertungen von Bohnen, die ich zu Hause in der Bialetti-Mokkakanne zubereite.</div>
 <div id="homeList" class="review-list"></div>
-<h2 class="comparison-heading">Comparison</h2>
+<h2 class="comparison-heading">Vergleich</h2>
 <div class="compare-picker">
-<p class="compare-hint">Choose 2 or 3 coffees to compare.</p>
+<p class="compare-hint">Wähle zwei oder drei Kaffees zum Vergleichen aus.</p>
 <div id="homeCompareOptions" class="compare-options"></div>
 <div class="compare-actions">
-<span id="homeCompareCount" class="compare-count" aria-live="polite">0 selected</span>
-<button id="homeCompareButton" class="act compare-button" type="button" disabled>Compare selected</button>
+<span id="homeCompareCount" class="compare-count" aria-live="polite">0 ausgewählt</span>
+<button id="homeCompareButton" class="act compare-button" type="button" disabled>Auswahl vergleichen</button>
 </div>
 </div>
 <div class="tw" id="homeComparison"></div>
 </section>
 
+<aside class="disclaimer" aria-label="Hinweis">
+<p>Hinweis: Bewertungen sind subjektiv. Ich verwende einheitliche Kriterien, damit sie besser vergleichbar sind. Es gibt keine und wird keine gesponserten Kooperationen geben.</p>
+</aside>
+
 </main>
 <footer class="site-footer">
 <a href="impressum.html">Impressum</a>
-<a href="datenschutz.html">Datenschutz</a>
+<a href="datenschutz.html">Datenschutzerklärung</a>
 </footer>
 <script src="assets/js/criteria.js"></script>
 <script src="assets/js/app.js"></script>

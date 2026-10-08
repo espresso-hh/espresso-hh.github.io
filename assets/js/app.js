@@ -51,7 +51,10 @@ function scoreFor(ratings, groups) {
 }
 
 function reviewDateValue(entry) {
-  var value = entry.category === "home" ? entry.roasting_date : entry.date;
+  return dateValue(entry.category === "home" ? entry.roasting_date : entry.date);
+}
+
+function dateValue(value) {
   if (typeof value !== "string") {
     return null;
   }
@@ -83,6 +86,20 @@ function reviewDateValue(entry) {
     : null;
 }
 
+function formatDate(value) {
+  var timestamp = dateValue(value);
+  if (timestamp === null) {
+    return value;
+  }
+
+  var date = new Date(timestamp);
+  return [
+    String(date.getUTCDate()).padStart(2, "0"),
+    String(date.getUTCMonth() + 1).padStart(2, "0"),
+    date.getUTCFullYear()
+  ].join(".");
+}
+
 function newestFirst(entries) {
   return entries.slice().sort(function (a, b) {
     var dateA = reviewDateValue(a);
@@ -98,6 +115,13 @@ function f1(value) {
   return value === null ? "-" : (Math.round(value * 10) / 10).toFixed(1);
 }
 
+function formatEuro(value) {
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR"
+  }).format(Number(value));
+}
+
 function report(entry) {
   var ratings = entry.ratings || {};
   var groups = groupsFor(entry.category);
@@ -107,37 +131,37 @@ function report(entry) {
     html +=
       '<img class="review-image" src="' +
       esc(entry.image_url) +
-      '" alt="Photo from ' +
-      esc(entry.cafe || "this café") +
+      '" alt="Foto von ' +
+      esc(entry.cafe || "diesem Café") +
       '" loading="lazy">';
   }
 
   if (entry.category === "home") {
     var coffeeDetails = [
-      ["Roasting date", entry.roasting_date],
+      ["Röstdatum", entry.roasting_date],
       [
-        "Price per 250g",
+        "Preis pro 250 g",
         entry.price_per_250g !== undefined &&
         entry.price_per_250g !== null &&
         entry.price_per_250g !== ""
-          ? "€" + Number(entry.price_per_250g).toFixed(2)
+          ? formatEuro(entry.price_per_250g)
           : ""
       ],
       [
-        "SCA rating",
+        "SCA-Bewertung",
         typeof entry.sca_rating === "number" && Number.isFinite(entry.sca_rating)
           ? entry.sca_rating
           : entry.sca_rating === "No SCA rating"
-            ? entry.sca_rating
+            ? "Keine SCA-Bewertung"
             : ""
       ],
-      ["Recipe", entry.recipe]
+      ["Rezept", entry.recipe]
     ].filter(function (detail) {
       return detail[1] !== undefined && detail[1] !== null && detail[1] !== "";
     });
 
     if (coffeeDetails.length) {
-      html += '<div class="gh"><span>Coffee details</span></div>';
+      html += '<div class="gh"><span>Kaffeedetails</span></div>';
       coffeeDetails.forEach(function (detail) {
         html +=
           '<div class="ln"><span>' +
@@ -162,14 +186,14 @@ function report(entry) {
 
     group.items.forEach(function (item, itemIndex) {
       var value = ratings[groupIndex + "-" + itemIndex];
-      var label = item[1] === "yn" ? "Tap water" : item[0];
+      var label = item[1] === "yn" ? "Leitungswasser" : item[0];
       var text =
         value === undefined
           ? "-"
           : item[1] === "yn"
             ? value
-              ? "Yes"
-              : "No"
+              ? "Ja"
+              : "Nein"
             : value + " / 5";
 
       html +=
@@ -183,7 +207,7 @@ function report(entry) {
 
   if (entry.note) {
     html +=
-      '<div class="gh"><span>Tasting notes</span></div><div class="ln" style="display:block">' +
+      '<div class="gh"><span>Verkostungsnotizen</span></div><div class="ln" style="display:block">' +
       esc(entry.note) +
       "</div>";
   }
@@ -203,40 +227,43 @@ function renderReviews(entries, listId, emptyText) {
   entries.forEach(function (entry) {
     var details = document.createElement("details");
     details.className = "entry";
+    var score = scoreFor(entry.ratings || {}, groupsFor(entry.category));
 
     var metadata =
       entry.category === "home"
         ? [
-            entry.roasting_date ? "Roasted " + entry.roasting_date : "",
+            entry.roasting_date ? "Geröstet am " + formatDate(entry.roasting_date) : "",
             entry.price_per_250g !== undefined &&
             entry.price_per_250g !== null &&
             entry.price_per_250g !== ""
-              ? "€" + Number(entry.price_per_250g).toFixed(2) + " / 250g"
+              ? formatEuro(entry.price_per_250g) + " / 250 g"
               : ""
           ]
         : [
-            entry.date,
+            entry.date ? formatDate(entry.date) : "",
             entry.double_price !== "" && entry.double_price !== null
-              ? "Double " + entry.double_price + " €"
+              ? "Doppio " + formatEuro(entry.double_price)
               : "",
             entry.single_price !== "" && entry.single_price !== null
-              ? "Single " + entry.single_price + " €"
+              ? "Einfacher Espresso " + formatEuro(entry.single_price)
               : ""
           ];
-    metadata = metadata
-      .filter(Boolean)
-      .join(", ");
+    metadata = metadata.filter(Boolean);
 
     details.innerHTML =
       '<summary><div class="sc">' +
-      f1(scoreFor(entry.ratings || {}, groupsFor(entry.category))) +
-      "/15" +
-      '</div><div class="m"><div>' +
-      esc(entry.cafe || "Unnamed café") +
-      "</div><div>" +
-      esc(metadata) +
+      f1(score) +
+      '/15</div><div class="m"><div class="entry-name">' +
+      esc(entry.cafe || "Unbenanntes Café") +
+      '</div><div class="entry-meta">' +
+      metadata
+        .map(function (item) {
+          return '<span class="entry-chip">' + esc(item) + "</span>";
+        })
+        .join("") +
       "</div></div></summary>" +
       report(entry);
+
     list.appendChild(details);
   });
 }
@@ -245,7 +272,7 @@ function renderComparison(entries, comparisonId) {
   var comparison = $(comparisonId);
   if (entries.length < 2) {
     comparison.innerHTML =
-      '<div class="empty">Choose two or three reviews above, then select Compare selected.</div>';
+      '<div class="empty">Wähle oben zwei oder drei Bewertungen aus und klicke dann auf „Auswahl vergleichen“.</div>';
     return;
   }
 
@@ -259,9 +286,9 @@ function renderComparison(entries, comparisonId) {
   var groups = groupsFor(sorted[0].category);
   var table = "<table><tr><th></th>";
   sorted.forEach(function (entry) {
-    table += "<th>" + esc(entry.cafe || "Unnamed") + "</th>";
+    table += "<th>" + esc(entry.cafe || "Unbenannt") + "</th>";
   });
-  table += '</tr><tr class="g"><td>Total (sum of group averages / 15)</td>';
+  table += '</tr><tr class="g"><td>Gesamt (Summe der Gruppenmittelwerte / 15)</td>';
   sorted.forEach(function (entry) {
     table +=
       "<td>" + f1(scoreFor(entry.ratings || {}, groups)) + " / 15</td>";
@@ -269,7 +296,7 @@ function renderComparison(entries, comparisonId) {
   table += "</tr>";
 
   groups.forEach(function (group, groupIndex) {
-    table += '<tr class="g"><td>' + esc(group.t) + " (avg of 5)</td>";
+    table += '<tr class="g"><td>' + esc(group.t) + " (Durchschnitt von 5)</td>";
     sorted.forEach(function (entry) {
       table +=
         "<td>" + f1(gavg(entry.ratings || {}, groups, groupIndex)) + "</td>";
@@ -279,7 +306,7 @@ function renderComparison(entries, comparisonId) {
     group.items.forEach(function (item, itemIndex) {
       table +=
         "<tr><td>" +
-        esc(item[1] === "yn" ? "Tap water" : item[0]) +
+        esc(item[1] === "yn" ? "Leitungswasser" : item[0]) +
         "</td>";
       sorted.forEach(function (entry) {
         var value = (entry.ratings || {})[groupIndex + "-" + itemIndex];
@@ -289,8 +316,8 @@ function renderComparison(entries, comparisonId) {
             ? "-"
             : item[1] === "yn"
               ? value
-                ? "Yes"
-                : "No"
+                ? "Ja"
+                : "Nein"
               : esc(value)) +
           "</td>";
       });
@@ -320,7 +347,7 @@ function setupComparisonPicker(entries, category) {
 
     var name = document.createElement("span");
     name.className = "compare-name";
-    name.textContent = entry.cafe || (category === "home" ? "Unnamed coffee" : "Unnamed café");
+    name.textContent = entry.cafe || (category === "home" ? "Unbenannter Kaffee" : "Unbenanntes Café");
 
     var details = document.createElement("span");
     details.className = "compare-detail";
@@ -339,10 +366,10 @@ function setupComparisonPicker(entries, category) {
       event.target.checked = false;
       selected = options.querySelectorAll('input[type="checkbox"]:checked');
     }
-    count.textContent = selected.length + " selected";
+    count.textContent = selected.length + " ausgewählt";
     button.disabled = selected.length < 2;
     comparison.innerHTML =
-      '<div class="empty">Choose two or three reviews above, then select Compare selected.</div>';
+      '<div class="empty">Wähle oben zwei oder drei Bewertungen aus und klicke dann auf „Auswahl vergleichen“.</div>';
   }
 
   options.addEventListener("change", updateSelection);
@@ -368,8 +395,8 @@ function render() {
     return entry.category !== "home";
   }));
 
-  renderReviews(homeReviews, "homeList", "No at-home reviews have been published yet.");
-  renderReviews(cafeReviews, "cafeList", "No café reviews have been published yet.");
+  renderReviews(homeReviews, "homeList", "Es wurden noch keine Bewertungen für Kaffee zu Hause veröffentlicht.");
+  renderReviews(cafeReviews, "cafeList", "Es wurden noch keine Café-Bewertungen veröffentlicht.");
   setupComparisonPicker(homeReviews, "home");
   setupComparisonPicker(cafeReviews, "cafe");
 }
@@ -378,11 +405,11 @@ async function initialize() {
   try {
     var response = await fetch("reviews.json");
     if (!response.ok) {
-      throw new Error("Could not load reviews.json (HTTP " + response.status + ").");
+      throw new Error("reviews.json konnte nicht geladen werden (HTTP " + response.status + ").");
     }
     var entries = await response.json();
     if (!Array.isArray(entries)) {
-      throw new Error("reviews.json must contain a JSON array.");
+      throw new Error("reviews.json muss ein JSON-Array enthalten.");
     }
     saved = entries;
     render();
@@ -390,7 +417,7 @@ async function initialize() {
   } catch (error) {
     saved = [];
     render();
-    setStatus("Could not load the review file. " + error.message, true);
+    setStatus("Die Bewertungsdatei konnte nicht geladen werden. " + error.message, true);
   }
 }
 
