@@ -54,6 +54,11 @@ function reviewDateValue(entry) {
   return dateValue(entry.category === "home" ? entry.roasting_date : entry.date);
 }
 
+function comparisonName(entry) {
+  var name = entry.cafe || "Unbenannt";
+  return entry.category === "home" ? name.trim().split(/\s+/)[0] : name;
+}
+
 function dateValue(value) {
   if (typeof value !== "string") {
     return null;
@@ -286,9 +291,9 @@ function renderComparison(entries, comparisonId) {
   var groups = groupsFor(sorted[0].category);
   var table = "<table><tr><th></th>";
   sorted.forEach(function (entry) {
-    table += "<th>" + esc(entry.cafe || "Unbenannt") + "</th>";
+    table += "<th>" + esc(comparisonName(entry)) + "</th>";
   });
-  table += '</tr><tr class="g"><td>Gesamt (Summe der Gruppenmittelwerte / 15)</td>';
+  table += '</tr><tr class="g"><td>Gesamt</td>';
   sorted.forEach(function (entry) {
     table +=
       "<td>" + f1(scoreFor(entry.ratings || {}, groups)) + " / 15</td>";
@@ -296,7 +301,7 @@ function renderComparison(entries, comparisonId) {
   table += "</tr>";
 
   groups.forEach(function (group, groupIndex) {
-    table += '<tr class="g"><td>' + esc(group.t) + " (Durchschnitt von 5)</td>";
+    table += '<tr class="g"><td>' + esc(group.t) + "</td>";
     sorted.forEach(function (entry) {
       table +=
         "<td>" + f1(gavg(entry.ratings || {}, groups, groupIndex)) + "</td>";

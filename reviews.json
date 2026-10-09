@@ -45,5 +45,27 @@
       "2-4": 1
     },
     "image_url": "assets/reviews/rounded-image-blu-mediterraneo.jpg"
+  },
+  {
+    "id": 3,
+    "category": "home",
+    "cafe": "Fortuna Espresso - Black Hat Coffee",
+    "roasting_date": "05.10.2026",
+    "price_per_250g": 15.0,
+    "sca_rating": 85.5,
+    "recipe": "Bialetti-Mokkakanne für 2 Tassen: 80 g kochendes Wasser, 12 g gemahlene Bohnen bei Mahlgrad 2 von 8, mittlere Hitze. Vom Herd nehmen, sobald der Kaffee zu laufen beginnt.",
+    "note": "Eine herrausragende Säure, die ich so eigentlich nur von Siebträger Espressi kenne. Angenehm runder nachgeschmack!",
+    "ratings": {
+      "0-0": 5, 
+      "1-0": 5,
+      "1-1": 4,
+      "1-2": 5,
+      "1-3": 5,
+      "2-0": 5,
+      "2-1": 4,
+      "2-2": 4,
+      "2-3": 5
+    },
+    "image_url": "assets/Blog/GalleryOne/IMG_2589.webp"
   }
 ]
