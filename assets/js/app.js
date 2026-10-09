@@ -169,9 +169,9 @@ function report(entry) {
       html += '<div class="gh"><span>Kaffeedetails</span></div>';
       coffeeDetails.forEach(function (detail) {
         html +=
-          '<div class="ln"><span>' +
+          '<div class="ln coffee-detail"><span>' +
           esc(detail[0]) +
-          '</span><b style="text-align:right;max-width:65%">' +
+          '</span><b>' +
           esc(detail[1]) +
           "</b></div>";
       });
@@ -212,7 +212,7 @@ function report(entry) {
 
   if (entry.note) {
     html +=
-      '<div class="gh"><span>Verkostungsnotizen</span></div><div class="ln" style="display:block">' +
+      '<div class="gh"><span>Notizen</span></div><div class="ln" style="display:block">' +
       esc(entry.note) +
       "</div>";
   }
@@ -231,13 +231,25 @@ function renderReviews(entries, listId, emptyText) {
 
   entries.forEach(function (entry) {
     var details = document.createElement("details");
-    details.className = "entry";
+    details.className = "entry entry-" + entry.category;
     var score = scoreFor(entry.ratings || {}, groupsFor(entry.category));
+
+    var coffeeName = entry.cafe || "Unbenannt";
+    var roaster = "";
+    if (entry.category === "home") {
+      var separator = coffeeName.indexOf(" - ");
+      if (separator !== -1) {
+        roaster = coffeeName.slice(separator + 3);
+        coffeeName = coffeeName.slice(0, separator);
+      }
+    }
 
     var metadata =
       entry.category === "home"
         ? [
-            entry.roasting_date ? "Geröstet am " + formatDate(entry.roasting_date) : "",
+            entry.roasting_date
+              ? "Geröstet am " + formatDate(entry.roasting_date)
+              : "",
             entry.price_per_250g !== undefined &&
             entry.price_per_250g !== null &&
             entry.price_per_250g !== ""
@@ -250,20 +262,34 @@ function renderReviews(entries, listId, emptyText) {
               ? "Doppio " + formatEuro(entry.double_price)
               : "",
             entry.single_price !== "" && entry.single_price !== null
-              ? "Einfacher Espresso " + formatEuro(entry.single_price)
+              ? "Single " + formatEuro(entry.single_price)
               : ""
           ];
     metadata = metadata.filter(Boolean);
 
+    var image = entry.category === "home" && entry.image_url
+      ? '<img class="entry-thumb" src="' +
+        esc(entry.image_url) +
+        '" alt="" loading="lazy">'
+      : "";
+    var roasterMarkup = roaster
+      ? '<div class="entry-roaster">' + esc(roaster) + "</div>"
+      : "";
+
     details.innerHTML =
-      '<summary><div class="sc">' +
+      "<summary>" +
+      image +
+      '<div class="entry-copy"><div class="entry-heading"><div class="entry-title">' +
+      '<div class="entry-name">' +
+      esc(coffeeName) +
+      "</div>" +
+      roasterMarkup +
+      '</div><span class="entry-score">' +
       f1(score) +
-      '/15</div><div class="m"><div class="entry-name">' +
-      esc(entry.cafe || "Unbenanntes Café") +
-      '</div><div class="entry-meta">' +
+      '<span class="entry-score-total"> / 15</span></span></div><div class="entry-meta">' +
       metadata
         .map(function (item) {
-          return '<span class="entry-chip">' + esc(item) + "</span>";
+          return '<span class="entry-meta-item">' + esc(item) + "</span>";
         })
         .join("") +
       "</div></div></summary>" +
