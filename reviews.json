@@ -24,7 +24,7 @@
   {
     "id": 2,
     "category": "cafe",
-    "cafe": "Eclair auf Café",
+    "cafe": "Eclair au Café",
     "date": "2026-10-10",
     "double_price": 3.5,
     "single_price": 2.5,
@@ -67,5 +67,52 @@
       "2-3": 5
     },
     "image_url": "assets/Blog/GalleryOne/IMG_2589.webp"
+  },
+  {
+    "id": 4,
+    "category": "cafe",
+    "cafe": "Good One Café - Eimsbüttel",
+    "date": "2026-10-10",
+    "double_price": 3.5,
+    "single_price": 3.0,
+    "note": "x.",
+    "ratings": {
+      "0-0": 5,
+      "0-1": 5,
+      "0-2": 4,
+      "0-3": 4,
+      "1-0": 5,
+      "1-1": 5,
+      "1-2": 4,
+      "1-3": 5,
+      "2-0": 4,
+      "2-1": 5,
+      "2-2": 5,
+      "2-3": 4,
+      "2-4": 5
+    },
+    "image_url": "assets/reviews/ID4/IMG_5027.webp"
+  },
+  {
+    "id": 5,
+    "category": "home",
+    "cafe": "Cruiser Espresso - Black Hat Coffee",
+    "roasting_date": "29.09.2026",
+    "price_per_250g": 15.0,
+    "sca_rating": 87,
+    "recipe": "Bialetti-Mokkakanne für 2 Tassen: 80 g kochendes Wasser, 12 g gemahlene Bohnen bei Mahlgrad 2 von 8, mittlere Hitze. Vom Herd nehmen, sobald der Kaffee zu laufen beginnt.",
+    "note": "WOW!! Eine richtig gute Säure, unglaubliches Volumen und ein sehr angenehmer Nachgeschmack. Meckern auf hohem Niveau: etwas zu wenig Süße, aber das ist Jammern auf hohem Niveau.",
+    "ratings": {
+      "0-0": 5, 
+      "1-0": 5,
+      "1-1": 5,
+      "1-2": 4,
+      "1-3": 5,
+      "2-0": 5,
+      "2-1": 5,
+      "2-2": 5,
+      "2-3": 5
+    },
+    "image_url": "assets/reviews/ID5/IMG_2607.webp"
   }
 ]
