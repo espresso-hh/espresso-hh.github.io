@@ -267,7 +267,7 @@ function renderReviews(entries, listId, emptyText) {
           ];
     metadata = metadata.filter(Boolean);
 
-    var image = entry.category === "home" && entry.image_url
+    var image = entry.image_url
       ? '<img class="entry-thumb" src="' +
         esc(entry.image_url) +
         '" alt="" loading="lazy">'
