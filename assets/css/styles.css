@@ -1,38 +1,4 @@
 :root {
-  color-scheme: light;
-  --bg: #deaf84;
-  --card: #f0dfca;
-  --card-raised: #f6eadb;
-  --ink: #2f1b12;
-  --mute: #714423;
-  --line: #97704f;
-  --accent: #a95424;
-  --accent-soft: #e7d0b5;
-  --crema: #43392f;
-  --on: #f6eadb;
-
-  box-sizing: border-box;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg: #2f1b12;
-    --card: #f0dfca;
-    --card-raised: #f6eadb;
-    --ink: #f0d8bf;
-    --mute: #deaf84;
-    --line: #714423;
-    --accent: #a95424;
-    --accent-soft: #e7d0b5;
-    --crema: #deaf84;
-    --on: #2f1b12;
-  }
-}
-
-:root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #2f1b12;
   --card: #f0dfca;
@@ -44,22 +10,13 @@
   --accent-soft: #e7d0b5;
   --crema: #deaf84;
   --on: #2f1b12;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) :is(section, .about-intro) {
-    --ink: #2f1b12;
-    --mute: #714423;
-    --line: #97704f;
-    --accent: #a95424;
-    --accent-soft: #e7d0b5;
-    --crema: #43392f;
-    --on: #f6eadb;
-    color: var(--ink);
-  }
-}
-
-:root[data-theme="dark"] :is(section, .about-intro) {
+:root :is(section, .about-intro) {
   --ink: #2f1b12;
   --mute: #714423;
   --line: #97704f;
