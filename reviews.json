@@ -139,5 +139,27 @@
       "2-4": 5
     },
     "image_url": "assets/reviews/ID6/"
+  },
+  {
+    "id": 7,
+    "category": "home",
+    "cafe": "Solveig - Noor Roastery",
+    "roasting_date": "10.09.2026",
+    "price_per_250g": 12.5,
+    "sca_rating": 0,
+    "recipe": "Bialetti-Mokkakanne für 2 Tassen: 80 g kochendes Wasser, 12 g gemahlene Bohnen bei Mahlgrad 2 von 8, mittlere Hitze. Vom Herd nehmen, sobald der Kaffee zu laufen beginnt.",
+    "note": "Solide Bohnen! Kein WOW effekt, aber solide in aller hinsicht und einen guten Körper. ",
+    "ratings": {
+      "0-0": 5, 
+      "1-0": 4,
+      "1-1": 3,
+      "1-2": 4,
+      "1-3": 4,
+      "2-0": 4,
+      "2-1": 5,
+      "2-2": 3,
+      "2-3": 5
+    },
+    "image_url": "assets/reviews/ID7/IMG_2958.webp"
   }
 ]
